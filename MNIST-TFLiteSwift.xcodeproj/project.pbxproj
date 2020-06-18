@@ -12,9 +12,11 @@
 		712B3573249C2E08000C8A6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3571249C2E08000C8A6D /* Main.storyboard */; };
 		712B3575249C2E0B000C8A6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712B3574249C2E0B000C8A6D /* Assets.xcassets */; };
 		712B3578249C2E0B000C8A6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3576249C2E0B000C8A6D /* LaunchScreen.storyboard */; };
+		E4A4066BA09B3BE0780D9213 /* Pods_MNIST_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763652FCD7606D1048E2C557 /* Pods_MNIST_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5330708A60F9FBEB46CB2C7B /* Pods-MNIST-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MNIST-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-MNIST-TFLiteSwift/Pods-MNIST-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		712B3568249C2E08000C8A6D /* MNIST-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MNIST-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		712B356B249C2E08000C8A6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		712B356F249C2E08000C8A6D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +24,8 @@
 		712B3574249C2E0B000C8A6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712B3577249C2E0B000C8A6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		712B3579249C2E0B000C8A6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		763652FCD7606D1048E2C557 /* Pods_MNIST_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MNIST_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E259850495AC8FE02578F6D /* Pods-MNIST-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MNIST-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-MNIST-TFLiteSwift/Pods-MNIST-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4A4066BA09B3BE0780D9213 /* Pods_MNIST_TFLiteSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D6F868727E589A1AF11CED7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				763652FCD7606D1048E2C557 /* Pods_MNIST_TFLiteSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		712B355F249C2E08000C8A6D = {
 			isa = PBXGroup;
 			children = (
 				712B356A249C2E08000C8A6D /* MNIST-TFLiteSwift */,
 				712B3569249C2E08000C8A6D /* Products */,
+				8AA114A967617FA19B91F95B /* Pods */,
+				0D6F868727E589A1AF11CED7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +79,16 @@
 			path = "MNIST-TFLiteSwift";
 			sourceTree = "<group>";
 		};
+		8AA114A967617FA19B91F95B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5330708A60F9FBEB46CB2C7B /* Pods-MNIST-TFLiteSwift.debug.xcconfig */,
+				7E259850495AC8FE02578F6D /* Pods-MNIST-TFLiteSwift.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,6 +96,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 712B357C249C2E0B000C8A6D /* Build configuration list for PBXNativeTarget "MNIST-TFLiteSwift" */;
 			buildPhases = (
+				08779E580B6BC06E89E28B21 /* [CP] Check Pods Manifest.lock */,
 				712B3564249C2E08000C8A6D /* Sources */,
 				712B3565249C2E08000C8A6D /* Frameworks */,
 				712B3566249C2E08000C8A6D /* Resources */,
@@ -129,6 +155,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08779E580B6BC06E89E28B21 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MNIST-TFLiteSwift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		712B3564249C2E08000C8A6D /* Sources */ = {
@@ -278,6 +329,7 @@
 		};
 		712B357D249C2E0B000C8A6D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5330708A60F9FBEB46CB2C7B /* Pods-MNIST-TFLiteSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -296,6 +348,7 @@
 		};
 		712B357E249C2E0B000C8A6D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E259850495AC8FE02578F6D /* Pods-MNIST-TFLiteSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
