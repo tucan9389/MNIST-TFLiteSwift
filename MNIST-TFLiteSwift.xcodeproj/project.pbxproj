@@ -12,6 +12,11 @@
 		712B3573249C2E08000C8A6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3571249C2E08000C8A6D /* Main.storyboard */; };
 		712B3575249C2E0B000C8A6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712B3574249C2E0B000C8A6D /* Assets.xcassets */; };
 		712B3578249C2E0B000C8A6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3576249C2E0B000C8A6D /* LaunchScreen.storyboard */; };
+		712B3585249C3179000C8A6D /* TFLiteImageInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */; };
+		712B3586249C3179000C8A6D /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */; };
+		712B3589249C48B5000C8A6D /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */; };
+		712B358B249C48E6000C8A6D /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B358A249C48E6000C8A6D /* DataExtension.swift */; };
+		712B358E249C493A000C8A6D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B358D249C493A000C8A6D /* UIImageExtension.swift */; };
 		E4A4066BA09B3BE0780D9213 /* Pods_MNIST_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763652FCD7606D1048E2C557 /* Pods_MNIST_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +29,11 @@
 		712B3574249C2E0B000C8A6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712B3577249C2E0B000C8A6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		712B3579249C2E0B000C8A6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpreter.swift; sourceTree = "<group>"; };
+		712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
+		712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
+		712B358A249C48E6000C8A6D /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
+		712B358D249C493A000C8A6D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		763652FCD7606D1048E2C557 /* Pods_MNIST_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MNIST_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E259850495AC8FE02578F6D /* Pods-MNIST-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MNIST-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-MNIST-TFLiteSwift/Pods-MNIST-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +81,8 @@
 			children = (
 				712B356B249C2E08000C8A6D /* AppDelegate.swift */,
 				712B356F249C2E08000C8A6D /* ViewController.swift */,
+				712B3587249C3191000C8A6D /* TFLite */,
+				712B358C249C48EC000C8A6D /* Extensions */,
 				712B3571249C2E08000C8A6D /* Main.storyboard */,
 				712B3574249C2E0B000C8A6D /* Assets.xcassets */,
 				712B3576249C2E0B000C8A6D /* LaunchScreen.storyboard */,
@@ -79,13 +91,31 @@
 			path = "MNIST-TFLiteSwift";
 			sourceTree = "<group>";
 		};
+		712B3587249C3191000C8A6D /* TFLite */ = {
+			isa = PBXGroup;
+			children = (
+				712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */,
+				712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */,
+			);
+			path = TFLite;
+			sourceTree = "<group>";
+		};
+		712B358C249C48EC000C8A6D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */,
+				712B358A249C48E6000C8A6D /* DataExtension.swift */,
+				712B358D249C493A000C8A6D /* UIImageExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8AA114A967617FA19B91F95B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				5330708A60F9FBEB46CB2C7B /* Pods-MNIST-TFLiteSwift.debug.xcconfig */,
 				7E259850495AC8FE02578F6D /* Pods-MNIST-TFLiteSwift.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -186,8 +216,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				712B3589249C48B5000C8A6D /* CVPixelBufferExtension.swift in Sources */,
+				712B358B249C48E6000C8A6D /* DataExtension.swift in Sources */,
+				712B358E249C493A000C8A6D /* UIImageExtension.swift in Sources */,
 				712B3570249C2E08000C8A6D /* ViewController.swift in Sources */,
 				712B356C249C2E08000C8A6D /* AppDelegate.swift in Sources */,
+				712B3586249C3179000C8A6D /* TFLiteFlatArray.swift in Sources */,
+				712B3585249C3179000C8A6D /* TFLiteImageInterpreter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
