@@ -23,15 +23,13 @@
 //
 
 import UIKit
-import TensorFlowLite
 
 class ViewController: UIViewController {
+    
+    let classifier: ImageClassifier = MNISTImageClassifier()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
 
