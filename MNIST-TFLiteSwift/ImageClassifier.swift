@@ -18,7 +18,6 @@ struct ClassificationInput {
 }
 
 struct ImageClassificationOutput {
-    
     var outputs: [TFLiteFlatArray<Float32>]
     var number: Int // 0...9
 }

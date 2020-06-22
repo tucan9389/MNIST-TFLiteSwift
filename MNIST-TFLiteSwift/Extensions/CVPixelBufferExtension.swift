@@ -1,18 +1,18 @@
 /*
-* Copyright Doyoung Gwak 2020
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright Doyoung Gwak 2020
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 //
 //  CVPixelBufferExtension.swift
@@ -125,7 +125,7 @@ extension CVPixelBuffer {
         let width = CVPixelBufferGetWidth(self)
         let height = CVPixelBufferGetHeight(self)
         let sourceBytesPerRow = CVPixelBufferGetBytesPerRow(self)
-        let destinationBytesPerRow = 3 * width
+        let destinationBytesPerRow = 1 * width
         
         // Assign input image to `sourceBuffer` to convert it.
         var sourceBuffer = vImage_Buffer(
@@ -153,6 +153,9 @@ extension CVPixelBuffer {
             vImageConvert_BGRA8888toRGB888(&sourceBuffer, &destinationBuffer, UInt32(kvImageNoFlags))
         case kCVPixelFormatType_32ARGB:
             vImageConvert_BGRA8888toRGB888(&sourceBuffer, &destinationBuffer, UInt32(kvImageNoFlags))
+        case kCVPixelFormatType_OneComponent8:
+            //            vImageConvert_Fto16Q12(&sourceBuffer, &destinationBuffer, UInt32(kvImageNoFlags))
+            destinationBuffer = sourceBuffer
         default:
             os_log("The type of this image is not supported.", type: .error)
             return nil
@@ -165,12 +168,147 @@ extension CVPixelBuffer {
         if isModelQuantized { return imageByteData }
         
         let imageBytes = [UInt8](imageByteData)
-        let bytes: [Float]
+        print(imageBytes.count)
+        let bytes: [Float32]
         if isNormalized {
-            bytes = imageBytes.map { Float($0) / 255.0 } // normalization
+            bytes = imageBytes.map { Float32($0) / 255.0 } // normalization
         } else {
-            bytes = imageBytes.map { Float($0) } // not normalization
+            bytes = imageBytes.map { Float32($0) } // not normalization
         }
         return Data(copyingBufferOf: bytes)
+    }
+    
+//    func grayData(isNormalized: Bool = false, isModelQuantized: Bool) -> Data? {
+//        CVPixelBufferLockBaseAddress(self, .readOnly)
+//        defer { CVPixelBufferUnlockBaseAddress(self, .readOnly) }
+//        guard let sourceData = CVPixelBufferGetBaseAddress(self) else {
+//            return nil
+//        }
+//
+//        let width = CVPixelBufferGetWidth(self)
+//        let height = CVPixelBufferGetHeight(self)
+//        let sourceBytesPerRow = CVPixelBufferGetBytesPerRow(self)
+//        let destinationBytesPerRow = 1 * width
+//
+//        // Assign input image to `sourceBuffer` to convert it.
+//        var sourceBuffer = vImage_Buffer(
+//            data: sourceData,
+//            height: vImagePixelCount(height),
+//            width: vImagePixelCount(width),
+//            rowBytes: 28//sourceBytesPerRow
+//        )
+//
+//        //let baseAddress = CVPixelBufferGetBaseAddress(self)
+//        // let bytesPerRow = CVPixelBufferGetBytesPerRow(self)
+//        //let buffer = baseAddress!.assumingMemoryBound(to: UInt8.self)
+//
+//        //            // Make `destinationBuffer` and `destinationData` for its data to be assigned.
+//        //            guard let destinationData = malloc(height * destinationBytesPerRow) else {
+//        //                os_log("Error: out of memory", type: .error)
+//        //                return nil
+//        //            }
+//        //            defer { free(destinationData) }
+//        //            var destinationBuffer = vImage_Buffer(
+//        //                data: destinationData,
+//        //                height: vImagePixelCount(height),
+//        //                width: vImagePixelCount(width),
+//        //                rowBytes: destinationBytesPerRow)
+//        //
+//        //            // Convert image type.
+//        //            switch CVPixelBufferGetPixelFormatType(self) {
+//        //            case kCVPixelFormatType_OneComponent8:
+//        //    //            vImageConvert_Fto16Q12(&sourceBuffer, &destinationBuffer, UInt32(kvImageNoFlags))
+//        //                destinationBuffer = sourceBuffer
+//        //            default:
+//        //                os_log("The type of this image is not supported.", type: .error)
+//        //                return nil
+//        //            }
+//
+//        // Make `Data` with converted image.
+//        let imageByteData = Data(
+//            bytes: sourceBuffer.data, count: sourceBuffer.rowBytes * height)
+//
+//        if isModelQuantized { return imageByteData }
+//
+//        let imageBytes = [UInt8](imageByteData)
+//        print(imageBytes.count)
+//        let bytes: [Float32]
+//        var maxv: Float32 = -1.0
+//        var minv: Float32 = 1.0
+//        if isNormalized {
+//            bytes = imageBytes.map {
+//                maxv = max(Float32($0), maxv)
+//                minv = min(Float32($0), minv)
+//                return Float32($0) / 255.0
+//            } // normalization
+//
+//            for i in 0..<28 {
+//                var str = ""
+//                for j in 0..<28 {
+//                    str += String(format: "% 3d, ", imageBytes[i + j*28])
+//                }
+//                print(str)
+//            }
+//        } else {
+//            bytes = imageBytes.map { Float32($0) } // not normalization
+//        }
+//        return Data(copyingBufferOf: bytes)
+//    }
+    
+    func grayData(isNormalized: Bool = false, isModelQuantized: Bool) -> Data? {
+        CVPixelBufferLockBaseAddress(self, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(self, .readOnly) }
+        guard let baseAddress = CVPixelBufferGetBaseAddress(self) else { return nil }
+        
+        let width = CVPixelBufferGetWidth(self)
+        let height = CVPixelBufferGetHeight(self)
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(self)
+        
+        let buffer = baseAddress.assumingMemoryBound(to: UInt8.self)
+        var pixelData = [UInt8](repeating: 0, count: width * height)
+        pixelData = pixelData.enumerated().map { buffer[$0.offset] }
+        
+        let bytes: [Float32]
+        if isNormalized {
+            bytes = pixelData.map { Float32($0) / 255.0 }
+        } else {
+            bytes = pixelData.map { Float32($0) }
+        }
+        
+        
+        
+        
+        for i in 0..<width {
+            var str = ""
+            for j in 0..<height {
+                str += String(format: "% 3d, ", pixelData[i*28 + j])
+            }
+            print(str)
+        }
+        print()
+        print()
+        
+        let px = self
+        
+        return Data(copyingBufferOf: bytes)
+    }
+    
+    func pixelData() -> [UInt8]? {
+        let size = self.size
+        let dataSize = size.width * size.height * 1
+        var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
+        let colorSpace = CGColorSpaceCreateDeviceGray()
+        let context = CGContext(data: &pixelData,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: 8,
+                                bytesPerRow: 4 * Int(size.width),
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+        // guard let cgImage = self.cgImage else { return nil }
+        // context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        // context.draw
+
+        return pixelData
     }
 }

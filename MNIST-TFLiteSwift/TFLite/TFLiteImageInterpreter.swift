@@ -99,13 +99,17 @@ class TFLiteImageInterpreter {
     
     func preprocess(with input: TFLiteVisionInput) -> Data? {
         let modelInputSize = CGSize(width: options.inputWidth, height: options.inputHeight)
-        guard let thumbnail = input.croppedPixelBuffer(with: modelInputSize) else { return nil }
+        let pixelBuffer: CVPixelBuffer?
+        if case .none = input.cropArea {
+            pixelBuffer = input.pixelBuffer
+        } else {
+            pixelBuffer = input.croppedPixelBuffer(with: modelInputSize)
+        }
+        guard let thumbnail = pixelBuffer else { return nil }
         
         // Remove the alpha component from the image buffer to get the initialized `Data`.
-        let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
-        guard let inputData = thumbnail.rgbData(byteCount: byteCount,
-                                                isNormalized: options.isNormalized,
-                                                isModelQuantized: options.isQuantized) else {
+        guard let inputData = thumbnail.grayData(isNormalized: options.isNormalized,
+                                                 isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
         }
@@ -122,10 +126,8 @@ class TFLiteImageInterpreter {
         guard let thumbnail = pixelBuffer.resize(from: targetSquare, to: modelSize) else { return nil }
         
         // Remove the alpha component from the image buffer to get the initialized `Data`.
-        let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
-        guard let inputData = thumbnail.rgbData(byteCount: byteCount,
-                                                isNormalized: options.isNormalized,
-                                                isModelQuantized: options.isQuantized) else {
+        guard let inputData = thumbnail.grayData(isNormalized: options.isNormalized,
+                                                 isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
         }
@@ -146,8 +148,8 @@ class TFLiteImageInterpreter {
             for (index) in 0..<outputTensors.count {
                 outputTensors[index] = try interpreter.output(at: index)
             }
-        } catch /*let error*/ {
-            // fatalError("Failed to invoke the interpreter with error:" + error.localizedDescription)
+        } catch let error {
+            print("Failed to invoke the interpreter with error:" + error.localizedDescription)
             return nil
         }
         
@@ -239,6 +241,8 @@ enum TFLiteVisionInput {
             return CGRect(x: (size.width - minLength) / 2,
                           y: (size.height - minLength) / 2,
                           width: minLength, height: minLength)
+        case .none:
+            return .zero
         }
     }
     
@@ -258,5 +262,6 @@ struct PreprocessOptions {
     enum CropArea {
         case customAspectFill(rect: CGRect)
         case squareAspectFill
+        case none
     }
 }

@@ -73,14 +73,20 @@ private extension ImageClassificationOutput {
     }
 }
 
-extension TFLiteFlatArray {
+extension TFLiteFlatArray where Element == Float32 {
     func argmax() -> Int {
-        let numberOfElements = dimensions.reduce(0) { $0 * $1 }
-        let maxElement = (0..<numberOfElements)
-            .map { self[$0] }
-            .compactMap { $0 }
-            .enumerated()
-            .max(by: { $0.element < $1.element })
-        return maxElement?.offset ?? 0
+        let numberOfElements = dimensions.reduce(1) { $0 * $1 }
+        
+        var maxValue: Float32 = 0
+        var maxIndex: Int = 0
+        
+        for i in 0..<numberOfElements {
+            print(self.element(at: [0, i]))
+            if maxValue < element(at: [0, i]) {
+                maxValue = element(at: [0, i])
+                maxIndex = i
+            }
+        }
+        return maxIndex
     }
 }
