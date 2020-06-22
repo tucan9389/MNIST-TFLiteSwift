@@ -69,25 +69,12 @@ class ViewController: UIViewController {
         
         // get drawn image
         let viewContext = drawView.getViewContext()
-        let cgImage = viewContext?.makeImage()
-        let ciImage = CIImage(cgImage: cgImage!)
-
-        context.render(ciImage, toBitmap: &pixelData, rowBytes: 28, bounds: drawView.bounds, format: CIFormat.R8, colorSpace: CGColorSpaceCreateDeviceGray())
         
+        guard let cgImage = viewContext?.makeImage() else { return }
         
+        let uiImage = UIImage(cgImage: cgImage)
         
-        (0..<28).forEach { i in
-            var dd = ""
-            (0..<28).forEach { j in
-                dd += "\(pixelData[i*28 + j].str(digitNumber: 3, emptyStr: " ")),"
-            }
-            print(dd)
-        }
-        
-        // let inputData = pixelData.map { Float32($0) / 255.0 }
-        let inputData = pixelData.map { Float32($0) }
-        
-        // return
+        guard let inputData = uiImage.grayScaled() else { return }
         
         // create input with the above image
         let input = ClassificationInput(input: .pixelData(pixelData: inputData,
@@ -114,5 +101,63 @@ extension UInt8 {
             tmp = emptyStr + tmp
         }
         return tmp
+    }
+}
+
+extension UIImage {
+    func grayScaled() -> [Float32]? {
+        let toConvertSize = CGSize(width: 28, height: 28)
+        UIGraphicsBeginImageContextWithOptions(toConvertSize, false, 1.0)
+        self.draw(in: CGRect(origin: .zero, size: toConvertSize))
+        let toConvertImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        let size = toConvertImage.size
+        let width = Int(size.width)
+        let height = Int(size.height)
+
+        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: width * height * MemoryLayout<UInt32>.size)
+        defer {
+            pixels.deallocate()
+        }
+        memset(pixels, 0, width * height * MemoryLayout<UInt32>.size)
+        
+        let bitmapInfo: CGBitmapInfo = [.byteOrder32Little, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)]
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+
+        let context = CGContext(data: pixels, width: width, height: height,
+                                bitsPerComponent: 8,
+                                bytesPerRow: width * MemoryLayout<UInt32>.size,
+                                space: colorSpace,
+                                bitmapInfo: bitmapInfo.rawValue)
+
+        context?.draw(toConvertImage.cgImage!, in: CGRect(x: 0, y: 0, width: 28, height: 28))
+
+        var array = Array<Float32>()
+        array.reserveCapacity(height * width)
+        
+        for y in 0..<height {
+            for x in 0..<width {
+                let pixel = pixels[y * width + x].toUInt8s()
+                let grayed = Float(pixel[0]) * 0.3 + Float(pixel[1]) * 0.59 + Float(pixel[2]) * 0.11
+                array.append(grayed / 255)
+            }
+        }
+        
+        return array
+    }
+}
+
+
+extension UInt32 {
+    func toUInt8s() -> [UInt8] {
+        var bigEndian = self.bigEndian
+        let count = MemoryLayout<UInt32>.size
+        let bytePtr = withUnsafePointer(to: &bigEndian) {
+            $0.withMemoryRebound(to: UInt8.self, capacity: count) {
+                UnsafeBufferPointer(start: $0, count: count)
+            }
+        }
+        return Array(bytePtr)
     }
 }
