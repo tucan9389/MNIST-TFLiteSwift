@@ -84,10 +84,13 @@ class ViewController: UIViewController {
             print(dd)
         }
         
+        // let inputData = pixelData.map { Float32($0) / 255.0 }
+        let inputData = pixelData.map { Float32($0) }
+        
         // return
         
         // create input with the above image
-        let input = ClassificationInput(input: .pixelData(pixelData: pixelData,
+        let input = ClassificationInput(input: .pixelData(pixelData: inputData,
                                                           preprocessOptions: PreprocessOptions(cropArea: .none)),
                                         postprocessOptions: PostprocessOptions(numberOfCategories: 10))
 

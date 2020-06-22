@@ -31,14 +31,23 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cw2-A9-8BZ">
+                                        <rect key="frame" x="58" y="58" width="240" height="240"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="JD1-os-6mf"/>
+                                            <constraint firstAttribute="width" constant="240" id="VPV-lv-VAQ"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="00x-Ar-cvI" firstAttribute="top" secondItem="SP8-4T-h8y" secondAttribute="top" id="2jR-dH-3Dt"/>
                                     <constraint firstAttribute="trailing" secondItem="00x-Ar-cvI" secondAttribute="trailing" id="IyB-Ho-8Bc"/>
+                                    <constraint firstItem="cw2-A9-8BZ" firstAttribute="centerX" secondItem="SP8-4T-h8y" secondAttribute="centerX" id="KnP-ek-OuL"/>
                                     <constraint firstAttribute="bottom" secondItem="00x-Ar-cvI" secondAttribute="bottom" id="bB9-ya-mca"/>
                                     <constraint firstAttribute="width" secondItem="SP8-4T-h8y" secondAttribute="height" multiplier="1:1" priority="750" id="bPb-Ym-muo"/>
                                     <constraint firstItem="00x-Ar-cvI" firstAttribute="leading" secondItem="SP8-4T-h8y" secondAttribute="leading" id="dIH-lY-S8J"/>
+                                    <constraint firstItem="cw2-A9-8BZ" firstAttribute="centerY" secondItem="SP8-4T-h8y" secondAttribute="centerY" id="epy-Fb-otW"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F0F-9d-9id">
@@ -93,6 +102,7 @@
                     <connections>
                         <outlet property="drawView" destination="lyL-sf-sxb" id="A8X-Gd-Ldf"/>
                         <outlet property="predictLabel" destination="00x-Ar-cvI" id="3BQ-gs-uqD"/>
+                        <outlet property="tmpIamgeView" destination="cw2-A9-8BZ" id="CdP-YQ-UV2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

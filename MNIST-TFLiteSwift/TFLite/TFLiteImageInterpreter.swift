@@ -203,7 +203,7 @@ extension TFLiteImageInterpreter {
 enum TFLiteVisionInput {
     case pixelBuffer(pixelBuffer: CVPixelBuffer, preprocessOptions: PreprocessOptions)
     case uiImage(uiImage: UIImage, preprocessOptions: PreprocessOptions)
-    case pixelData(pixelData: [UInt8], preprocessOptions: PreprocessOptions)
+    case pixelData(pixelData: [Float32], preprocessOptions: PreprocessOptions)
     
     var pixelBuffer: CVPixelBuffer? {
         switch self {
@@ -216,7 +216,7 @@ enum TFLiteVisionInput {
         }
     }
     
-    var pixelData: [UInt8]? {
+    var pixelData: [Float32]? {
         switch self {
         case .pixelData(let pixelData, _):
             return pixelData
