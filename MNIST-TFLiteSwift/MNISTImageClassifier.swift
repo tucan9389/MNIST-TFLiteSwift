@@ -31,8 +31,11 @@ class MNISTImageClassifier: ImageClassifier {
         modelOutput = nil
         
         // preprocss
-        guard let inputData = imageInterpreter.preprocess(with: input.input)
+//        guard let inputData = imageInterpreter.preprocess(with: input.input)
+//            else { return .failure(.failToCreateInputData) }
+        guard let pixelData = input.input.pixelData
             else { return .failure(.failToCreateInputData) }
+        let inputData = Data(copyingBufferOf: pixelData)
         
         // inference
         guard let outputs = imageInterpreter.inference(with: inputData)

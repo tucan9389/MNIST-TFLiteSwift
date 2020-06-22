@@ -74,6 +74,8 @@ class ViewController: UIViewController {
 
         context.render(ciImage, toBitmap: &pixelData, rowBytes: 28, bounds: drawView.bounds, format: CIFormat.R8, colorSpace: CGColorSpaceCreateDeviceGray())
         
+        
+        
         (0..<28).forEach { i in
             var dd = ""
             (0..<28).forEach { j in
@@ -82,23 +84,23 @@ class ViewController: UIViewController {
             print(dd)
         }
         
-        return
+        // return
         
-//        // create input with the above image
-//        let input = ClassificationInput(input: .pixelBuffer(pixelBuffer: pixelBuffer,
-//                                                            preprocessOptions: PreprocessOptions(cropArea: .none)),
-//                                        postprocessOptions: PostprocessOptions(numberOfCategories: 10))
-//
-//        // prediction
-//        let result: Result<ImageClassificationOutput, ImageClassificationError> = classifier.inference(input)
-//
-//        // show the result of the prediction
-//        switch (result) {
-//        case .success(let output):
-//            predictLabel.text = "\(output.number)"
-//        case .failure(_):
-//            break
-//        }
+        // create input with the above image
+        let input = ClassificationInput(input: .pixelData(pixelData: pixelData,
+                                                          preprocessOptions: PreprocessOptions(cropArea: .none)),
+                                        postprocessOptions: PostprocessOptions(numberOfCategories: 10))
+
+        // prediction
+        let result: Result<ImageClassificationOutput, ImageClassificationError> = classifier.inference(input)
+
+        // show the result of the prediction
+        switch (result) {
+        case .success(let output):
+            predictLabel.text = "\(output.number)"
+        case .failure(_):
+            break
+        }
     }
 }
 
