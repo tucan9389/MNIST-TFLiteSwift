@@ -7,5 +7,6 @@ target 'MNIST-TFLiteSwift' do
 
   # Pods for MNIST-TFLiteSwift
   pod 'TensorFlowLiteSwift'
+  pod 'Alamofire'
 
 end
