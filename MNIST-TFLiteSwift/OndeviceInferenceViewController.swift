@@ -15,7 +15,7 @@
 */
 
 //
-//  ViewController.swift
+//  OndeviceInferenceViewController.swift
 //  MNIST-TFLiteSwift
 //
 //  Created by Doyoung Gwak on 2020/06/19.
@@ -26,7 +26,7 @@ import UIKit
 import CoreImage
 import CoreVideo
 
-class ViewController: UIViewController {
+class OndeviceInferenceViewController: UIViewController {
     
     // MARK: - UI
     @IBOutlet weak var drawView: DrawView?
@@ -43,15 +43,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         predictLabel?.text = ""
-        
-        setupPixelBuffer()
-    }
-    
-    func setupPixelBuffer() {
-        // Set the pixel buffer dimensions - Remember it's grayscale
-        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        CVPixelBufferCreate(kCFAllocatorDefault, 28, 28, kCVPixelFormatType_OneComponent8, attrs, &pixelBuffer)
     }
     
     @IBAction func clear(_ sender: Any) {
@@ -104,11 +95,12 @@ extension UInt8 {
     }
 }
 
+// https://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+// syj 
 extension UIImage {
-    func grayScaled() -> [Float32]? {
-        let toConvertSize = CGSize(width: 28, height: 28)
-        UIGraphicsBeginImageContextWithOptions(toConvertSize, false, 1.0)
-        self.draw(in: CGRect(origin: .zero, size: toConvertSize))
+    func grayScaled(targetSize: CGSize = CGSize(width: 28, height: 28)) -> [Float32]? {
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        self.draw(in: CGRect(origin: .zero, size: targetSize))
         let toConvertImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
 
@@ -122,7 +114,10 @@ extension UIImage {
         }
         memset(pixels, 0, width * height * MemoryLayout<UInt32>.size)
         
-        let bitmapInfo: CGBitmapInfo = [.byteOrder32Little, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)]
+        let bitmapInfo: CGBitmapInfo = [
+            .byteOrder32Little,
+            CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+        ]
         let colorSpace = CGColorSpaceCreateDeviceRGB()
 
         let context = CGContext(data: pixels, width: width, height: height,
@@ -131,7 +126,7 @@ extension UIImage {
                                 space: colorSpace,
                                 bitmapInfo: bitmapInfo.rawValue)
 
-        context?.draw(toConvertImage.cgImage!, in: CGRect(x: 0, y: 0, width: 28, height: 28))
+        context?.draw(toConvertImage.cgImage!, in: CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height))
 
         var array = Array<Float32>()
         array.reserveCapacity(height * width)

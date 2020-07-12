@@ -13,7 +13,7 @@ class MNISTImageClassifier: ImageClassifier {
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "mnistCNN",
+            modelName: "mnist",
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
