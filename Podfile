@@ -6,6 +6,13 @@ target 'MNIST-TFLiteSwift' do
   use_frameworks!
 
   # Pods for MNIST-TFLiteSwift
-  pod 'TensorFlowLiteSwift'
+  # pod 'TensorFlowLiteSwift'
+  pod 'TFLiteSwift-Vision', :path => '../TFLiteSwift-Vision'
 
+end
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  end
 end

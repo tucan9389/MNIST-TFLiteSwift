@@ -7,42 +7,48 @@
 //
 
 import Foundation
+import TFLiteSwift_Vision
 
 class MNISTImageClassifier: ImageClassifier {
-    typealias MNISTClassificationResult = Result<ImageClassificationOutput, ImageClassificationError>
     
-    lazy var imageInterpreter: TFLiteImageInterpreter = {
-        let options = TFLiteImageInterpreter.Options(
+    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+        let interpreterOptions = TFLiteVisionInterpreter.Options(
             modelName: "mnistCNN",
-            inputWidth: Input.width,
-            inputHeight: Input.height,
-            isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            inputRankType: .bhwc,
+            normalization: .scaled(from: 0.0, to: 1.0)
         )
-        let imageInterpreter = TFLiteImageInterpreter(options: options)
+        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: ClassificationInput) -> MNISTClassificationResult {
+    func inference(_ uiImage: UIImage) -> Result<ImageClassificationOutput, ImageClassificationError> {
         
         // initialize
         modelOutput = nil
         
-        // preprocss
-//        guard let inputData = imageInterpreter.preprocess(with: input.input)
-//            else { return .failure(.failToCreateInputData) }
-        guard let pixelData = input.input.pixelData
-            else { return .failure(.failToCreateInputData) }
-        let inputData = Data(copyingBufferOf: pixelData)
-        
-        // inference
-        guard let outputs = imageInterpreter.inference(with: inputData)
+        // preprocss and inference
+        guard let outputs = imageInterpreter.inference(with: uiImage)
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = MNISTClassificationResult.success(postprocess(with: outputs))
+        let result:  Result<ImageClassificationOutput, ImageClassificationError> = Result.success(postprocess(with: outputs))
+        
+        return result
+    }
+    
+    func inference(_ pixelBuffer: CVPixelBuffer) -> Result<ImageClassificationOutput, ImageClassificationError> {
+        
+        // initialize
+        modelOutput = nil
+        
+        // preprocss and inference
+        guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+            else { return .failure(.failToInference) }
+        
+        // postprocess
+        let result:  Result<ImageClassificationOutput, ImageClassificationError> = Result.success(postprocess(with: outputs))
         
         return result
     }
@@ -58,12 +64,6 @@ class MNISTImageClassifier: ImageClassifier {
 }
 
 private extension MNISTImageClassifier {
-    struct Input {
-        static let width = 28
-        static let height = 28
-        static let isGrayScale = true
-        static let isNormalized = true
-    }
     struct Output {
         static let numberOfCategories = 10
     }

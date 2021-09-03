@@ -6,7 +6,9 @@
 //  Copyright © 2020 Doyoung Gwak. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreVideo
+import TFLiteSwift_Vision
 
 struct PostprocessOptions {
     let numberOfCategories: Int
@@ -28,6 +30,7 @@ enum ImageClassificationError: Error {
 }
 
 protocol ImageClassifier {
-    func inference(_ input: ClassificationInput) -> Result<ImageClassificationOutput, ImageClassificationError>
+    func inference(_ uiImage: UIImage) -> Result<ImageClassificationOutput, ImageClassificationError>
+    func inference(_ pixelBuffer: CVPixelBuffer) -> Result<ImageClassificationOutput, ImageClassificationError>
     func postprocessOnLastOutput(options: PostprocessOptions) -> ImageClassificationOutput?
 }
