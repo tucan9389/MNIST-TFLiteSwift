@@ -7,7 +7,7 @@ target 'MNIST-TFLiteSwift' do
 
   # Pods for MNIST-TFLiteSwift
   # pod 'TensorFlowLiteSwift'
-  pod 'TFLiteSwift-Vision', :path => '../TFLiteSwift-Vision'
+  pod 'TFLiteSwift-Vision'
 
 end
 
