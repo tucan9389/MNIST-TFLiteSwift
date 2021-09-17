@@ -12,11 +12,6 @@
 		712B3573249C2E08000C8A6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3571249C2E08000C8A6D /* Main.storyboard */; };
 		712B3575249C2E0B000C8A6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712B3574249C2E0B000C8A6D /* Assets.xcassets */; };
 		712B3578249C2E0B000C8A6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712B3576249C2E0B000C8A6D /* LaunchScreen.storyboard */; };
-		712B3585249C3179000C8A6D /* TFLiteImageInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */; };
-		712B3586249C3179000C8A6D /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */; };
-		712B3589249C48B5000C8A6D /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */; };
-		712B358B249C48E6000C8A6D /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B358A249C48E6000C8A6D /* DataExtension.swift */; };
-		712B358E249C493A000C8A6D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B358D249C493A000C8A6D /* UIImageExtension.swift */; };
 		712B3590249C512F000C8A6D /* mnistCNN.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712B358F249C512F000C8A6D /* mnistCNN.tflite */; };
 		712B3592249C52FD000C8A6D /* MNISTImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3591249C52FD000C8A6D /* MNISTImageClassifier.swift */; };
 		712B3594249C5313000C8A6D /* ImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B3593249C5313000C8A6D /* ImageClassifier.swift */; };
@@ -33,11 +28,6 @@
 		712B3574249C2E0B000C8A6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712B3577249C2E0B000C8A6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		712B3579249C2E0B000C8A6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpreter.swift; sourceTree = "<group>"; };
-		712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
-		712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
-		712B358A249C48E6000C8A6D /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
-		712B358D249C493A000C8A6D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		712B358F249C512F000C8A6D /* mnistCNN.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnistCNN.tflite; sourceTree = "<group>"; };
 		712B3591249C52FD000C8A6D /* MNISTImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MNISTImageClassifier.swift; sourceTree = "<group>"; };
 		712B3593249C5313000C8A6D /* ImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassifier.swift; sourceTree = "<group>"; };
@@ -93,33 +83,12 @@
 				712B3593249C5313000C8A6D /* ImageClassifier.swift */,
 				712B3591249C52FD000C8A6D /* MNISTImageClassifier.swift */,
 				712B358F249C512F000C8A6D /* mnistCNN.tflite */,
-				712B3587249C3191000C8A6D /* TFLite */,
-				712B358C249C48EC000C8A6D /* Extensions */,
 				712B3571249C2E08000C8A6D /* Main.storyboard */,
 				712B3574249C2E0B000C8A6D /* Assets.xcassets */,
 				712B3576249C2E0B000C8A6D /* LaunchScreen.storyboard */,
 				712B3579249C2E0B000C8A6D /* Info.plist */,
 			);
 			path = "MNIST-TFLiteSwift";
-			sourceTree = "<group>";
-		};
-		712B3587249C3191000C8A6D /* TFLite */ = {
-			isa = PBXGroup;
-			children = (
-				712B3583249C3179000C8A6D /* TFLiteImageInterpreter.swift */,
-				712B3584249C3179000C8A6D /* TFLiteFlatArray.swift */,
-			);
-			path = TFLite;
-			sourceTree = "<group>";
-		};
-		712B358C249C48EC000C8A6D /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				712B3588249C48B5000C8A6D /* CVPixelBufferExtension.swift */,
-				712B358D249C493A000C8A6D /* UIImageExtension.swift */,
-				712B358A249C48E6000C8A6D /* DataExtension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		8AA114A967617FA19B91F95B /* Pods */ = {
@@ -231,14 +200,9 @@
 			files = (
 				712B3592249C52FD000C8A6D /* MNISTImageClassifier.swift in Sources */,
 				712B3594249C5313000C8A6D /* ImageClassifier.swift in Sources */,
-				712B3589249C48B5000C8A6D /* CVPixelBufferExtension.swift in Sources */,
-				712B358B249C48E6000C8A6D /* DataExtension.swift in Sources */,
-				712B358E249C493A000C8A6D /* UIImageExtension.swift in Sources */,
 				712B3570249C2E08000C8A6D /* ViewController.swift in Sources */,
 				712B3596249CB570000C8A6D /* DrawView.swift in Sources */,
 				712B356C249C2E08000C8A6D /* AppDelegate.swift in Sources */,
-				712B3586249C3179000C8A6D /* TFLiteFlatArray.swift in Sources */,
-				712B3585249C3179000C8A6D /* TFLiteImageInterpreter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

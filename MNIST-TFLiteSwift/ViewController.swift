@@ -60,8 +60,6 @@ class ViewController: UIViewController {
         predictLabel?.text = ""
     }
     
-    var pixelData = [UInt8](repeating: 0, count: Int(28 * 28))
-    
     @IBAction func classify(_ sender: Any) {
         guard let drawView = drawView, let predictLabel = predictLabel else { return }
         // guard !drawView.lines.isEmpty else { return }
@@ -71,18 +69,10 @@ class ViewController: UIViewController {
         let viewContext = drawView.getViewContext()
         
         guard let cgImage = viewContext?.makeImage() else { return }
-        
         let uiImage = UIImage(cgImage: cgImage)
-        
-        guard let inputData = uiImage.grayScaled() else { return }
-        
-        // create input with the above image
-        let input = ClassificationInput(input: .pixelData(pixelData: inputData,
-                                                          preprocessOptions: PreprocessOptions(cropArea: .none)),
-                                        postprocessOptions: PostprocessOptions(numberOfCategories: 10))
 
         // prediction
-        let result: Result<ImageClassificationOutput, ImageClassificationError> = classifier.inference(input)
+        let result: Result<ImageClassificationOutput, ImageClassificationError> = classifier.inference(uiImage)
 
         // show the result of the prediction
         switch (result) {
@@ -91,73 +81,5 @@ class ViewController: UIViewController {
         case .failure(_):
             break
         }
-    }
-}
-
-extension UInt8 {
-    func str(digitNumber: Int, emptyStr: String) -> String {
-        var tmp = "\(self)"
-        while tmp.count < digitNumber {
-            tmp = emptyStr + tmp
-        }
-        return tmp
-    }
-}
-
-extension UIImage {
-    func grayScaled() -> [Float32]? {
-        let toConvertSize = CGSize(width: 28, height: 28)
-        UIGraphicsBeginImageContextWithOptions(toConvertSize, false, 1.0)
-        self.draw(in: CGRect(origin: .zero, size: toConvertSize))
-        let toConvertImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-
-        let size = toConvertImage.size
-        let width = Int(size.width)
-        let height = Int(size.height)
-
-        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: width * height * MemoryLayout<UInt32>.size)
-        defer {
-            pixels.deallocate()
-        }
-        memset(pixels, 0, width * height * MemoryLayout<UInt32>.size)
-        
-        let bitmapInfo: CGBitmapInfo = [.byteOrder32Little, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)]
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-
-        let context = CGContext(data: pixels, width: width, height: height,
-                                bitsPerComponent: 8,
-                                bytesPerRow: width * MemoryLayout<UInt32>.size,
-                                space: colorSpace,
-                                bitmapInfo: bitmapInfo.rawValue)
-
-        context?.draw(toConvertImage.cgImage!, in: CGRect(x: 0, y: 0, width: 28, height: 28))
-
-        var array = Array<Float32>()
-        array.reserveCapacity(height * width)
-        
-        for y in 0..<height {
-            for x in 0..<width {
-                let pixel = pixels[y * width + x].toUInt8s()
-                let grayed = Float(pixel[0]) * 0.3 + Float(pixel[1]) * 0.59 + Float(pixel[2]) * 0.11
-                array.append(grayed / 255)
-            }
-        }
-        
-        return array
-    }
-}
-
-
-extension UInt32 {
-    func toUInt8s() -> [UInt8] {
-        var bigEndian = self.bigEndian
-        let count = MemoryLayout<UInt32>.size
-        let bytePtr = withUnsafePointer(to: &bigEndian) {
-            $0.withMemoryRebound(to: UInt8.self, capacity: count) {
-                UnsafeBufferPointer(start: $0, count: count)
-            }
-        }
-        return Array(bytePtr)
     }
 }
